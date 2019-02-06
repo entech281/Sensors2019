@@ -1,6 +1,8 @@
 #include <Arduino.h>
+
 #include "Adafruit_MCP23017.h"
 #include <Wire.h>
+
 
 #define DISTANCE_BETWEEN_SENSORS 2
 #define SENSOR_AREA_WIDTH        4

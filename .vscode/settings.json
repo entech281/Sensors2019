@@ -1,6 +1,6 @@
 {
     "terminal.integrated.env.linux": {
-        "PATH": "/home/entech281/.platformio/penv/bin:/home/entech281/.platformio/penv:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+        "PATH": "/home/dcowden/.platformio/penv/bin:/home/dcowden/.platformio/penv:/home/dcowden/frc2019/jdk/bin:/home/dcowden/gems/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games",
         "PLATFORMIO_CALLER": "vscode"
     }
 }
