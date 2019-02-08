@@ -3,6 +3,17 @@
 #include "Adafruit_MCP23017.h"
 #include <Wire.h>
 
+#define SCL_PIN 6
+#define SDA_PIN 7
+#define SCL_PORT PORTD
+#define SDA_PORT PORTC
+
+
+#include <SoftI2CMaster.h>
+
+const byte sdaPin = 7;
+const byte sclPin = 6;
+
 
 #define DISTANCE_BETWEEN_SENSORS 2
 #define SENSOR_AREA_WIDTH        4
@@ -15,12 +26,14 @@ Adafruit_MCP23017 port_expander;
 
 void setup()
 {
+
+
   // put your setup code here, to run once:
   Serial.begin(9600);
   while (!Serial)
   {
   }
-
+  
   Serial.println("Serial set up");
 
   port_expander.begin(0);
@@ -57,8 +70,9 @@ void loop()
   indexLeft = indexLeft - 16;
 
   int offset_from_robot = ( indexRight + indexLeft ) / 2 * DISTANCE_BETWEEN_SENSORS - SENSOR_AREA_WIDTH / 2;
-  Wire.beginTransmission(RIO_I2C_PORT);
-  Wire.write(offset_from_robot);
-  Wire.endTransmission();
+  //Wire.beginTransmission(RIO_I2C_PORT);
+  //Wire.write(offset_from_robot);
+  //Wire.endTransmission();
+  Serial.println(offset_from_robot);
 
 }
