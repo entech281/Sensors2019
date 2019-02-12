@@ -1,6 +1,4 @@
 #include <Arduino.h>
-
-//#include "Adafruit_MCP23017.h"
 #include <Wire.h>
 
 #define SCL_PIN 6
@@ -9,7 +7,7 @@
 #define SDA_PORT PORTC
 
 
-#include <SoftI2CMaster.h>
+
 
 const byte sdaPin = 7;
 const byte sclPin = 6;
@@ -23,7 +21,11 @@ const byte sclPin = 6;
 
 
 void sendData(){
-  Wire.write((byte) 1);
+  uint8_t data = 0;
+  for(int i = 0; i < 8; i++){
+    data |= ( digitalRead( i + 2 ) << i );
+  }
+  Wire.write((byte) data);
 }
 
 void setup()
@@ -40,11 +42,9 @@ void setup()
 
   
   Wire.begin(1);
-
-  pinMode(8,INPUT);
-  pinMode(9,INPUT);
-  pinMode(10,INPUT);
-  pinMode(11,INPUT);
+  for(int i = 0; i < 8; i++)
+    pinMode( i + 2 ,INPUT);
+  
 
   Wire.onRequest(sendData);
 }
@@ -53,19 +53,6 @@ void setup()
 
 void loop()
 {
-  Serial.print("Value:");
   
-  digitalRead(8);
-  digitalRead(9);
-  digitalRead(10);
-  digitalRead(11);
-
-
-
-  Serial.println(1);
-  
-  
-  
-  delay(100);
 
 }
