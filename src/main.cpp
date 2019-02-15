@@ -6,10 +6,9 @@ const byte sclPin = 6;
 
 void sendData(){
   uint8_t data = 0;
-  for(int i = 0; i < 8; i++)
-    data |= ( digitalRead( i + 2 ) << i );
-  
-  Wire.write((byte) data);
+  for(int i = 0; i < 7; i++)
+    data += ( !digitalRead( i + 2 ) << i );
+  Wire.write((byte) data );
 }
 
 void setup()
@@ -19,10 +18,10 @@ void setup()
   Serial.begin(9600);
   while (!Serial){}
   Serial.println("Serial set up");
-  
   Wire.begin(1);
-  for(int i = 0; i < 8; i++)
+  for(int i = 0; i < 7; i++)
     pinMode( i + 2 ,INPUT);
+    
   
   Wire.onRequest(sendData);
 
@@ -30,4 +29,4 @@ void setup()
 
 
 
-void loop() { }
+void loop() {}
