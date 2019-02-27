@@ -1,64 +1,32 @@
 #include <Arduino.h>
-
-#include "Adafruit_MCP23017.h"
 #include <Wire.h>
 
+const byte sdaPin = 7;
+const byte sclPin = 6;
 
-#define DISTANCE_BETWEEN_SENSORS 2
-#define SENSOR_AREA_WIDTH        4
-#define RIO_I2C_PORT             8
-
-/*const byte LED_PIN_OUT = ;
-const byte LED_PIN_IN = ;
-*/
-Adafruit_MCP23017 port_expander;
+void sendData(){
+  uint8_t data = 0;
+  for(int i = 0; i < 7; i++)
+    data += ( !digitalRead( i + 2 ) << i );
+  Wire.write((byte) data );
+}
 
 void setup()
 {
+
   // put your setup code here, to run once:
   Serial.begin(9600);
-  while (!Serial)
-  {
-  }
-
+  while (!Serial){}
   Serial.println("Serial set up");
-
-  port_expander.begin(0);
-  Wire.begin();
-  Serial.println("IO Expander Initialized");
-
-  port_expander.pinMode(0, INPUT);
-  port_expander.pinMode(1, INPUT);
-  port_expander.pinMode(2, INPUT);
-  port_expander.pinMode(3, INPUT);
-
-  pinMode(2, OUTPUT);
-  Serial.println("IO Expander Pins Set");
-  //port_expander.pullUp(0, HIGH);
-}
-
-void loop()
-{
-  uint16_t bits = port_expander.readGPIOAB();
-  uint16_t indexRight = 0 ;
-  for(indexRight = 0; indexRight <= 16; ++indexRight){
-     if(!( bits << indexRight )){
-       break;
-     }
-  }
-  indexRight --;
-  int indexLeft;
-  for(indexLeft = 0; indexLeft <= 16; ++indexLeft){
-     if(!( bits >> indexLeft )){
-       break;
-     }
-  }
-  indexLeft ++;
-  indexLeft = indexLeft - 16;
-
-  int offset_from_robot = ( indexRight + indexLeft ) / 2 * DISTANCE_BETWEEN_SENSORS - SENSOR_AREA_WIDTH / 2;
-  Wire.beginTransmission(RIO_I2C_PORT);
-  Wire.write(offset_from_robot);
-  Wire.endTransmission();
+  Wire.begin(1);
+  for(int i = 0; i < 7; i++)
+    pinMode( i + 2 ,INPUT);
+    
+  
+  Wire.onRequest(sendData);
 
 }
+
+
+
+void loop() {}
